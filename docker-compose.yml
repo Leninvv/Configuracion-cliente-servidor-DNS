@@ -2,6 +2,7 @@ version: "2.2"
 services:
   asir_bind9:
     image: internetsystemsconsortium/bind9:9.16
+    network_mode: bridge
     ports:
       - 53:53
     volumes:
@@ -10,9 +11,12 @@ services:
       - secondaryzones:/var/lib/bind
       - logfiles:/var/log
   asir_cliente:
-    image: ubuntu
+    image: leninvv/cliente_ubuntu:net-tools
+    network_mode: bridge
     stdin_open: true  # docker run -i
     tty: true         # docker run -t
+    dns:
+      - 172.17.0.2
 volumes:
   conf:
     external: true
